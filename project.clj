@@ -6,6 +6,8 @@
   :dependencies [
                  ; Clojure
                  [org.clojure/clojure "1.10.0"]
+                 ; Get config from .env
+                 [yogthos/config "1.1.4"]
                  ; Client HTTP
                  [clj-http "3.10.0"]
                  ; Parse JSON
