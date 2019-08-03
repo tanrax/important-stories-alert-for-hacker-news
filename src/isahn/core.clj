@@ -25,6 +25,7 @@
 " Path file save history "
 (def path_history "isahn_history.json")
 (def history (if (.exists (io/file path_history)) (parse-string (slurp (io/file path_history)) true) (str "")))
+(def history_ids (map #(:id %) history))
 
 " FUNCTIONS "
 
@@ -43,29 +44,43 @@
   " Get all data stories "
   (map #(parse-string (:body (client/get % {:accept :json}))) urls_stories))
 
+(defn lazy-contains? [col key]
+  (some #{key} col))
+
+
+(defn save_history
+  []
+(prn "salvado")
+  )
+
 (defn filter_stories
+  " Filter stories by last 24h, remove histories and lower score "
   [stories]
   " Filter created less 24h "
   (def stories_24h (filter #(> (get-in % ["time"]) min_time) stories))
 
   " Filter history "
-  (def stories_without_histories (filter #(contains? history (get-in % ["id"])) stories_24h))
+  (def stories_without_histories (filter #(not (lazy-contains? history_ids (get-in % ["id"]))) stories_24h))
 
   " Filter with score min_score "
   (filter #(> (get-in % ["score"]) min_score) stories_without_histories))
 
+(defn send_stories_telegram
+  [stories]
+  " Send stories by Telegram Channel "
+  (doall (iterate #((client/post url_telegram_send {:basic-auth ["user" "pass"]
+                                                    :body (generate-string {
+                                                                            :chat_id (:chat env) 
+                                                                            :text (str (get-in % ["title"]) ": " (get-in % ["url"]))
+                                                                            :disable_notification true
+                                                                            })
+                                                    :content-type :json
+                                                    :accept :json})) stories)))
 
 (defn -main
   "Main execution"
   []
+
   (def stories_top (filter_stories (get_all_stories url_all_stories)))
   (prn stories_top)
-  ;; (doall (iterate #((client/post url_telegram_send {:basic-auth ["user" "pass"]
-  ;;                                      :body (generate-string {
-  ;;                                                              :chat_id (:chat env) 
-  ;;                                                              :text (str (get-in % ["title"]) ": " (get-in % ["url"]))
-  ;;                                                              :disable_notification true
-  ;;                                                              })
-  ;;                                      :content-type :json
-  ;;                                      :accept :json})) stories_top))
   )
