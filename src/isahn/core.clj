@@ -3,10 +3,8 @@
    [config.core :refer [env]]
    [clojure.java.io :as io]
    [clj-http.client :as client]
-   [cheshire.core :refer :all]
-   )
+   [cheshire.core :refer :all])
   (:gen-class))
-
 
 " VARIABLES "
 
@@ -25,7 +23,7 @@
 " Path file save history "
 (def path_history "isahn_history.json")
 (def history (if (.exists (io/file path_history)) (parse-string (slurp (io/file path_history)) true) (str "")))
-(def history_ids (map #(:id %) history))
+(def history_ids (map :id history))
 
 " FUNCTIONS "
 
@@ -40,17 +38,26 @@
   " Get all ids stories"
   (def ids_stories (parse-string (:body (client/get url_all_stories {:accept :json}))))
   " Get all API urls stories "
-  (def urls_stories (map #(one_story %) ids_stories))
+  (def urls_stories (map one_story ids_stories))
   " Get all data stories "
   (map #(parse-string (:body (client/get % {:accept :json}))) urls_stories))
 
 (defn lazy-contains? [col key]
   (some #{key} col))
 
+(defn set-interval [callback ms]
+  " Run function every ms "
+  (future (while true (do (Thread/sleep ms) (callback)))))
 
-(defn save_history
-  []
-(prn "salvado")
+(defn add_history
+  " Add to file history news_stories "
+  [news_stories]
+  (def history_news_ids (concat history_ids (map #(get-in % ["id"]) news_stories)))
+  (def history_all (map #(assoc {} :id %) (vec history_news_ids)))
+  (prn history_all)
+  (prn (generate-string history_all))
+  (with-open [w (clojure.java.io/writer path_history :append false)]
+    (.write w (generate-string history_all)))
   )
 
 (defn filter_stories
@@ -68,19 +75,25 @@
 (defn send_stories_telegram
   [stories]
   " Send stories by Telegram Channel "
-  (doall (iterate #((client/post url_telegram_send {:basic-auth ["user" "pass"]
-                                                    :body (generate-string {
-                                                                            :chat_id (:chat env) 
+  (doall (iterate #((client/post url_telegram_send {:body (generate-string {:chat_id (:chat env)
                                                                             :text (str (get-in % ["title"]) ": " (get-in % ["url"]))
-                                                                            :disable_notification true
-                                                                            })
+                                                                            :disable_notification true})
                                                     :content-type :json
                                                     :accept :json})) stories)))
+
+(defn check_stories
+  " Check news stories and send message to Telegram "
+  []
+  (def stories_top (filter_stories (get_all_stories url_all_stories)))
+  (doall (add_history stories_top))
+  ;;(doall (add_history ({"id" 45} {"id" 55})))
+  (prn stories_top)
+  )
 
 (defn -main
   "Main execution"
   []
-
-  (def stories_top (filter_stories (get_all_stories url_all_stories)))
-  (prn stories_top)
-  )
+  " Run first time "
+  (check_stories)
+  " Run every :run_every_miliseconds "
+  (set-interval check_stories (:run_every_miliseconds env)))

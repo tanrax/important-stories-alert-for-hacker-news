@@ -12,7 +12,13 @@
                  [clj-http "3.10.0"]
                  ; Parse JSON
                  [cheshire "5.8.1"]
-                 ]
+                ]
+  :plugins [
+            ; Dev Tools
+            [lein-auto "0.1.3"]
+            [lein-kibit "0.1.7"]
+            [lein-cljfmt "0.6.4"]
+            ]
   :main ^:skip-aot isahn.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
