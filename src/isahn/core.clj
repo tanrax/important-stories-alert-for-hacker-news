@@ -24,6 +24,7 @@
 (def min_time (- now unixtime24h))
 " Path file save history "
 (def path_history "isahn_history.json")
+(def history (if (.exists (io/file path_history)) (parse-string (slurp (io/file path_history)) true) (str "")))
 
 " FUNCTIONS "
 
@@ -47,17 +48,18 @@
   " Filter created less 24h "
   (def stories_24h (filter #(> (get-in % ["time"]) min_time) stories))
 
+  " Filter history "
+  (def stories_without_histories (filter #(contains? history (get-in % ["id"])) stories_24h))
+
   " Filter with score min_score "
-  (filter #(> (get-in % ["score"]) min_score) stories_24h))
+  (filter #(> (get-in % ["score"]) min_score) stories_without_histories))
 
 
 (defn -main
   "Main execution"
   []
-  ;; (def stories_top (filter_stories (get_all_stories url_all_stories)))
-  (def history-file (parse-string (io/file path_history)))
-  (prn (slurp data-file))
-                                        ;https://stackoverflow.com/questions/7756909/in-clojure-1-3-how-to-read-and-write-a-file
+  (def stories_top (filter_stories (get_all_stories url_all_stories)))
+  (prn stories_top)
   ;; (doall (iterate #((client/post url_telegram_send {:basic-auth ["user" "pass"]
   ;;                                      :body (generate-string {
   ;;                                                              :chat_id (:chat env) 
