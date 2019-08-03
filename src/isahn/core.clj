@@ -54,8 +54,6 @@
   [news_stories]
   (def history_news_ids (concat history_ids (map #(get-in % ["id"]) news_stories)))
   (def history_all (map #(assoc {} :id %) (vec history_news_ids)))
-  (prn history_all)
-  (prn (generate-string history_all))
   (with-open [w (clojure.java.io/writer path_history :append false)]
     (.write w (generate-string history_all)))
   )
@@ -86,9 +84,7 @@
   []
   (def stories_top (filter_stories (get_all_stories url_all_stories)))
   (doall (add_history stories_top))
-  ;;(doall (add_history ({"id" 45} {"id" 55})))
-  (prn stories_top)
-  )
+  (doall (send_stories_telegram stories_top)))
 
 (defn -main
   "Main execution"
