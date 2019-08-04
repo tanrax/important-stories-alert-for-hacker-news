@@ -2,10 +2,30 @@
 
 ## Installation
 
-
+``` sh
 cp config-example.edn config.edn
+```
 
 ## Usage
 
-    $ java -jar isahn-0.1.0-standalone.jar [args]
+``` sh
+java -jar isahn-[version]-standalone.jar
+```
     
+## Check format
+
+``` sh
+lein cljfmt check
+```
+
+## Check format
+
+``` sh
+lein cljfmt check
+```
+    
+## Linter
+
+``` sh
+lein auto kibit
+```
