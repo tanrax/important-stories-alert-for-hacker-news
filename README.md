@@ -11,21 +11,29 @@ cp config-example.edn config.edn
 ``` sh
 java -jar isahn-[version]-standalone.jar
 ```
-    
-## Check format
+
+## Development
+
+### Check format
 
 ``` sh
 lein cljfmt check
 ```
 
-## Check format
+### Linter
 
 ``` sh
-lein cljfmt check
+clj-kondo --lint src
 ```
-    
-## Linter
+
+### Check idiomatic
 
 ``` sh
 lein auto kibit
+```
+
+### Generate doc
+
+``` sh
+lein codox 
 ```
