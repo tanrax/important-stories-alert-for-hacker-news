@@ -36,10 +36,10 @@
   " Get all stories "
   [url_all_stories]
   ;; Get all ids stories
-  (let [ids_stories  (json/parse-string (:body (client/get url_all_stories {:accept :json})))
+  (let [;; Get all API urls stories
+        ids_stories  (json/parse-string (:body (client/get url_all_stories {:accept :json})))
+        ;; Get all data stories
         urls_stories (map one_story ids_stories)]
-    ;; Get all API urls stories
-    ;; Get all data stories
     (map #(json/parse-string (:body (client/get % {:accept :json}))) urls_stories)))
 
 (defn lazy-contains? [col key]
