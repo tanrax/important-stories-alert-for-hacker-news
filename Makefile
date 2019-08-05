@@ -2,7 +2,7 @@
 
 build:
 	make check
-	lein codox 
+	lein codox
 	lein uberjar
 
 check:
