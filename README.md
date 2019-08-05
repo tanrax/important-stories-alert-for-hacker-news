@@ -1,5 +1,11 @@
 # isahn
 
+Important stories alert for Hacker News.
+
+[Telegram channel](https://leiningen.org/)
+
+The entire code in this repository is in charge of feeding the Telegram channel. Every hour check for a new story with more than 600 points in Hacker News.
+
 ## Installation
 
 ``` sh
@@ -9,7 +15,15 @@ cp config-example.edn config.edn
 ## Usage
 
 ``` sh
-java -jar isahn-[version]-standalone.jar
+java -jar target/uberjar/isahn-[version]-standalone.jar
+```
+
+## Build
+
+Install [Leingengen](https://leiningen.org/) and then...
+
+``` sh
+make
 ```
 
 ## Development
@@ -36,4 +50,10 @@ lein auto kibit
 
 ``` sh
 lein codox 
+```
+
+### All
+
+``` sh
+make check
 ```
