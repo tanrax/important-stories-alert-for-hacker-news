@@ -2,6 +2,8 @@
 
 Important stories alert for Hacker News.
 
+![Logo isahn](icon.png)
+
 [Telegram channel](https://t.me/important_stories_alert_hacknews)
 
 The entire code in this repository is in charge of feeding the Telegram channel. Every hour check for a new story with more than 600 points in Hacker News.
