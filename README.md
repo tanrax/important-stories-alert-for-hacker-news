@@ -2,7 +2,9 @@
 
 Important stories alert for Hacker News.
 
-![Logo isahn](icon.png)
+<p align="center">
+  <img src="icon.png">
+</p>
 
 [Telegram channel](https://t.me/important_stories_alert_hacknews)
 
