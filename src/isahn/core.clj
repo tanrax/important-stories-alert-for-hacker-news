@@ -72,23 +72,21 @@
 (defn send_stories_telegram
   "Send stories by Telegram Channel"
   [stories]
-  (if (not-empty stories) (doall (iterate #((client/post url_telegram_send {:body         (json/generate-string {:chat_id              (:chat env)
-                                                                                                                 :text                 (str (get-in % ["title"]) ": " (get-in % ["url"]))
-                                                                                                                 :disable_notification true})
-                                                                            :content-type :json
-                                                                            :accept       :json})) stories))))
+  (doseq [story stories] (client/post url_telegram_send {:body         (json/generate-string {:chat_id              (:chat env)
+                                                                                              :text                 (str (get-in story ["title"]) ": " (get-in story ["url"]))
+                                                                                              :disable_notification true})
+                                                         :content-type :json
+                                                         :accept       :json})))
 
 (defn check_stories
-  " Check news stories and send message to Telegram "
+  "Check news stories and send message to Telegram"
   []
   (let [stories_top (filter_stories (get_all_stories url_all_stories))]
-    (doall (add_history stories_top))
-    (doall (send_stories_telegram stories_top))))
+    (add_history stories_top)
+    (send_stories_telegram stories_top)))
 
 (defn -main
   "Main execution"
   []
   ;; Run first time
-  (check_stories)
-  ;; Run every :run_every_miliseconds
-  (set-interval check_stories (:run_every_miliseconds env)))
+  (check_stories))
