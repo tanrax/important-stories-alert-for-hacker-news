@@ -19,6 +19,7 @@ cp config-example.edn config.edn
 ## Usage
 
 ``` sh
+cp config-example.cdn config.cdn
 java -jar target/uberjar/isahn-[version]-standalone.jar
 ```
 
