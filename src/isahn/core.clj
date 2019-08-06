@@ -33,7 +33,7 @@
   (str "https://hacker-news.firebaseio.com/v0/item/" id ".json"))
 
 (defn get_all_stories
-  " Get all stories "
+  "Get all stories"
   [url_all_stories]
   ;; Get all ids stories
   (let [;; Get all API urls stories
@@ -42,13 +42,8 @@
         urls_stories (map one_story ids_stories)]
     (map #(json/parse-string (:body (client/get % {:accept :json}))) urls_stories)))
 
-(defn lazy-contains? [col key]
+(defn lazy_contains? [col key]
   (some #{key} col))
-
-(defn set-interval
-  "Run function every ms"
-  [callback ms]
-  (future (while true (do (Thread/sleep ms) (callback)))))
 
 (defn add_history
   "Add to file history news_stories"
@@ -64,7 +59,7 @@
   ;; Filter created less 24h
   (let [stories_24h               (filter #(> (get-in % ["time"]) min_time) stories)
         ;; Filter history
-        stories_without_histories (filter #(not (lazy-contains? history_ids (get-in % ["id"]))) stories_24h)]
+        stories_without_histories (filter #(not (lazy_contains? history_ids (get-in % ["id"]))) stories_24h)]
 
     ;; Filter with score min_score
     (filter #(> (get-in % ["score"]) min_score) stories_without_histories)))
