@@ -83,5 +83,4 @@
 (defn -main
   "Main execution"
   []
-  ;; Run first time
   (check_stories))
