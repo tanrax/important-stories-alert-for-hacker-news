@@ -28,7 +28,7 @@
 ;; FUNCTIONS
 
 (defn one_story
-  " Get url from item "
+  "Get url from item"
   [id]
   (str "https://hacker-news.firebaseio.com/v0/item/" id ".json"))
 
