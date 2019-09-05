@@ -10,7 +10,8 @@
 
 ;; URL send for Telegram
 (def url_telegram_send (str "https://api.telegram.org/" (:bot_token env) "/sendMessage"))
-;;  URLs from API Hacker News
+
+;; URLs from API Hacker News
 (def url_all_stories "https://hacker-news.firebaseio.com/v0/topstories.json")
 ;;  Min score
 (def min_score (:min_score env))
