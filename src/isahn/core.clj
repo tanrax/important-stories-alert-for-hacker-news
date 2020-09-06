@@ -65,6 +65,11 @@
     ;; Filter with score min_score
     (filter #(> (get-in % ["score"]) min_score) stories_without_histories)))
 
+(defn filter_with_url
+  "Filter by removing stories that do not have the URL property"
+  [stories]
+  (filter (fn [story] (contains? story :url))) stories)
+
 (defn send_stories_telegram
   "Send stories by Telegram Channel"
   [stories]
@@ -74,14 +79,22 @@
                                                          :content-type :json
                                                          :accept       :json})))
 
-(defn check_stories
+(defn stories_top
+  "Get all Top Stories with all data"
+  []
+  (->> url_all_stories
+       (get_all_stories)
+       (filter_stories)
+       (filter_with_url)))
+
+(defn send_new_alert
   "Check news stories and send message to Telegram"
   []
-  (let [stories_top (filter_stories (get_all_stories url_all_stories))]
+  (let [stories_top (stories_top)]
     (add_history stories_top)
     (send_stories_telegram stories_top)))
 
 (defn -main
   "Main execution"
   []
-  (check_stories))
+  (send_new_alert))
