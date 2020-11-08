@@ -1,0 +1,11 @@
+[Unit]
+Description=isahn
+
+[Service]
+Type=oneshot
+Environment=DISPLAY=:0
+ExecStart=/bin/bash /root/isahn/script.sh
+User=root
+
+[Install]
+WantedBy=multi-user.target
