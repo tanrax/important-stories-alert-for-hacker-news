@@ -1,0 +1,6 @@
+{
+ :min_score 600
+ :chat "@important_stories_alert_hacknews"
+ :bot_token "bot918542948:AAGNfvZ3yqGkainRc-OFB44AYF7yYjY2TuM"
+ :run_every_miliseconds 3600000
+}
