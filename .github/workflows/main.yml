@@ -33,4 +33,4 @@ jobs:
           git config user.name "GitHub Action"
           git add isahn_history.json
           git commit -m 'Update history'
-          git push origin master
+          git push -f origin master
