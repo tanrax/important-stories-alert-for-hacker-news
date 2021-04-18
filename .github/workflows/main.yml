@@ -29,8 +29,4 @@ jobs:
       - name: Update database
         run: |
           cd recurring-execution-with-actions
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
-          git add isahn_history.json
-          git commit -m 'Update history'
-          git push -f origin master
+          ./updateDB.sh 
