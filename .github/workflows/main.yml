@@ -19,7 +19,7 @@ jobs:
       - name: Configure
         run: |
           cd recurring-execution-with-actions
-          echo "{ :min_score 600 :chat "${{ secrets.TELEGRAM_CHAT }}" :bot_token "${{ secrets.TELEGRAM_BOT_TOKEN }}" }" > config.edn
+          echo "{ :min_score 600 :chat \"${{ secrets.TELEGRAM_CHAT }}\" :bot_token \"${{ secrets.TELEGRAM_BOT_TOKEN }}\" :run_every_miliseconds 3600000 }" > config.edn
           
       - name: Run
         run: |
