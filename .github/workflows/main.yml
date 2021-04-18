@@ -1,0 +1,33 @@
+name: Check
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Java
+        run: |
+          apt install default-jre
+          
+      - name: Configure
+        run: |
+          cd recurring-execution-with-actions
+          echo "{ :min_score 600 :chat "${{ secrets.TELEGRAM_CHAT }}" :bot_token "${{ secrets.TELEGRAM_BOT_TOKEN }}" }" > config.edn
+          
+      - name: Run
+        run: |
+          java -jar isahn-1.0.1-standalone.jar
+          
+      - name: Update database
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add isahn_history.json
+          git commit -m 'Update history'
+          git push origin master
