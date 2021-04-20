@@ -2,5 +2,4 @@
  :min_score 600
  :chat ""
  :bot_token ""
- :run_every_miliseconds 3600000
 }
