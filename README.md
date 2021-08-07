@@ -6,7 +6,10 @@ Important stories alert for Hacker News.
   <img src="icon.png">
 </p>
 
-[Telegram channel](https://t.me/important_stories_alert_hacknews)
+
+<h2 align="center">
+  <a href="https://t.me/important_stories_alert_hacknews" src="icon.png" alt="Telegram channel">Telegram channel</a>
+</h2>
 
 The entire code in this repository is in charge of feeding the Telegram channel. Every hour check for a new story with more than 600 points in Hacker News.
 
@@ -23,7 +26,7 @@ cp config-example.cdn config.cdn
 java -jar target/uberjar/isahn-[version]-standalone.jar
 ```
 
-## Build
+## Build? Ok
 
 Install [Leingengen](https://leiningen.org/) and then...
 
