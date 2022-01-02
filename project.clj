@@ -1,4 +1,4 @@
-(defproject isahn "1.0.1"
+(defproject isahn "1.0.2"
   :description "ISAHN check news stories for Hacker News"
   :url "http://example.com/FIXME"
   :micense {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"

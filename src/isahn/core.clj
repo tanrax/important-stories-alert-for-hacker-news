@@ -60,10 +60,13 @@
   ;; Filter created less 24h
   (let [stories_24h               (filter #(> (get-in % ["time"]) min_time) stories)
         ;; Filter history
-        stories_without_histories (filter #(not (lazy_contains? history_ids (get-in % ["id"]))) stories_24h)]
-
-    ;; Filter with score min_score
-    (filter #(> (get-in % ["score"]) min_score) stories_without_histories)))
+        stories_without_histories (filter #(not (lazy_contains? history_ids (get-in % ["id"]))) stories_24h)
+        ;; Filter "Ask HN:"
+        stories_without_ask_HN    (filter #(not (lazy_contains? "Ask HN:" (get-in % ["title"]))) stories_without_histories)
+        ;; Filter with score min_score
+        stories_less_24h          (filter #(> (get-in % ["score"]) min_score) stories_without_ask_HN)]
+    ;; Return
+    stories_less_24h))
 
 (defn filter_with_url
   "Filter by removing stories that do not have the URL property"
