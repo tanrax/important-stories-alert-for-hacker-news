@@ -14,17 +14,18 @@ jobs:
       - name: Install Java
         run: |
           sudo apt update 
-          sudo apt install default-jre
+          sudo apt install default-jre wget
           
       - name: Configure
         run: |
           cd recurring-execution-with-actions
+          wget https://github.com/tanrax/important-stories-alert-for-hacker-news/releases/download/v1.0.2/isahn-1.0.2-standalone.jar
           echo "{ :min_score 600 :chat \"${{ secrets.TELEGRAM_CHAT }}\" :bot_token \"${{ secrets.TELEGRAM_BOT_TOKEN }}\" :run_every_miliseconds 3600000 }" > config.edn
           
       - name: Run
         run: |
           cd recurring-execution-with-actions
-          java -jar isahn-1.0.1-standalone.jar
+          java -jar isahn-1.0.2-standalone.jar
           
       - name: Update database
         run: |
